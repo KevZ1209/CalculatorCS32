@@ -49,6 +49,12 @@ bool check_precedence(const char a, const char b) {
     return true;
 }
 
+int check_expression(const string infix) {
+    
+    
+    return 1;
+}
+
 int evaluate(string infix, const Map& values, string& postfix, int& result) {
     // Evaluates an integer arithmetic expression
               //   If infix is a syntactically valid infix integer expression whose
@@ -100,27 +106,25 @@ int evaluate(string infix, const Map& values, string& postfix, int& result) {
         postfix += operator_stack.top();
         operator_stack.pop();
     }
-
+    
+    cerr << postfix << endl;
+    
     // evaluating postfix expression
-    stack<char> operand_stack;
+    stack<int> operand_stack;
     for (int i = 0; i < postfix.size(); i++) {
         char ch = postfix[i];
         if (isalpha(ch) && islower(ch)) {
             int value;
             values.get(ch, value);
-            operand_stack.push(ch);
+            operand_stack.push(value);
         }
         else // ch is binary operator
         {
             char operand2 = operand_stack.top();
             operand_stack.pop();
-            int o2;
-            values.get(operand2, o2);
             char operand1 = operand_stack.top();
             operand_stack.pop();
-            int o1;
-            values.get(operand1, o1);
-            operand_stack.push(do_math(o1, o2, ch));
+            operand_stack.push(do_math(operand1, operand2, ch));
         }
     }
     
@@ -141,7 +145,7 @@ int main() {
     string pf;
     int answer;
     
-    evaluate("a+e", m, pf, answer);
+    evaluate("a+i*o+y", m, pf, answer);
     
     cerr << answer << endl;
     
